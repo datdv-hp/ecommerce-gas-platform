@@ -10,6 +10,9 @@ app.use(helmet()); // header protection
 app.use(compression()); // compress payload
 
 // init db
+require('./databases/init.mongodb');
+const { checkOverLoad } = require('./heplers/check.connect');
+checkOverLoad();
 
 // init routes
 app.get('/', (req, res, next) => {
