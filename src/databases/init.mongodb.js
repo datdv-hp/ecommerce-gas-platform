@@ -1,12 +1,17 @@
-// 'use strict';
+'use strict';
 const mongoose = require('mongoose');
+const {
+  db: { host, port, name },
+} = require('../configs/config.mongodb');
+console.log({ host, port, name });
 
-const connectString = 'mongodb://127.0.0.1:27017/ecommerce-gas';
+const connectString = `mongodb://${host}:${port}/${name}`;
+console.log(connectString);
 const { countConnect } = require('../heplers/check.connect');
 
 class Database {
-  constructor() {
-    this.connect();
+  constructor(type) {
+    this.connect(type);
   }
 
   // connect
@@ -22,9 +27,9 @@ class Database {
       .connect(connectString, {
         maxPoolSize: 50, //default maxPoolSize 100
       })
-      .then((_) =>
-        console.log(`Connected MongoDB successfully`, countConnect())
-      )
+      .then((_) => {
+        console.log(`Connected MongoDB successfully`, countConnect());
+      })
       .catch((err) => console.log(`[Error] Connection errors! ${err.message}`));
   }
 
